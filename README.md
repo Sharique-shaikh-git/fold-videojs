@@ -7,7 +7,16 @@
 
 An open-source collection of custom **Video.js v10** player interfaces built with **React, TypeScript, and CSS**, featuring a cinematic folding control deck, an authentic Windows XP-inspired player, and a minimal viewing mode. Includes a separate local music listening suite with real-time audio-reactive visualizations.
 
-[Features](#features) · [Preview](#preview) · [Getting Started](#getting-started) · [Architecture](#architecture) · [Accessibility](#accessibility) · [License](#license)
+<br/>
+
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Player-black?style=for-the-badge&logo=vercel)](https://fold-videojs.vercel.app/preview)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Mirror-blue?style=for-the-badge&logo=github)](https://sharique-shaikh-git.github.io/fold-videojs/preview.html)
+[![Video.js](https://img.shields.io/badge/Video.js-v10.4.0-red?style=for-the-badge)](https://videojs.org)
+[![License](https://img.shields.io/badge/License-Apache%202.0-orange?style=for-the-badge)](LICENSE)
+
+<br/>
+
+[Live Player](https://fold-videojs.vercel.app/preview) · [Workbench](https://fold-videojs.vercel.app/) · [Features](#features) · [Preview](#preview) · [Getting Started](#getting-started) · [Architecture](#architecture) · [Accessibility](#accessibility) · [License](#license)
 
 </div>
 
@@ -18,12 +27,14 @@ An open-source collection of custom **Video.js v10** player interfaces built wit
 
 ---
 
-## 🌐 Live Demos
+## 🌐 Live Production Demos
 
-- 🎬 **Public Standalone Player:** [https://sharique-shaikh-git.github.io/fold-videojs/preview.html](https://sharique-shaikh-git.github.io/fold-videojs/preview.html)
-- 🎛️ **Interactive Workbench Suite:** [https://sharique-shaikh-git.github.io/fold-videojs/](https://sharique-shaikh-git.github.io/fold-videojs/)
+| Environment | Standalone Player (Clean View) | Interactive Workbench Suite |
+| :--- | :--- | :--- |
+| 🚀 **Vercel (Production)** | [**fold-videojs.vercel.app/preview**](https://fold-videojs.vercel.app/preview) | [**fold-videojs.vercel.app**](https://fold-videojs.vercel.app/) |
+| 📦 **GitHub Pages (Mirror)** | [sharique-shaikh-git.github.io/.../preview.html](https://sharique-shaikh-git.github.io/fold-videojs/preview.html) | [sharique-shaikh-git.github.io/fold-videojs](https://sharique-shaikh-git.github.io/fold-videojs/) |
 
-*No sign-in required. High-performance Video.js v10 stream with instant skin switching and Web Audio visualizations.*
+*Instant, high-performance Video.js v10 streaming via Mux HLS — no login required. Seamless skin switching between Cinema, Retro XP, and Minimal, plus the dedicated FOLD Retro Music visualizer suite.*
 
 ---
 
