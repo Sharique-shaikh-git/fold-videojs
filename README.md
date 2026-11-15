@@ -18,6 +18,15 @@ An open-source collection of custom **Video.js v10** player interfaces built wit
 
 ---
 
+## 🌐 Live Demos
+
+- 🎬 **Public Standalone Player:** [https://sharique-shaikh-git.github.io/fold-videojs/preview.html](https://sharique-shaikh-git.github.io/fold-videojs/preview.html)
+- 🎛️ **Interactive Workbench Suite:** [https://sharique-shaikh-git.github.io/fold-videojs/](https://sharique-shaikh-git.github.io/fold-videojs/)
+
+*No sign-in required. High-performance Video.js v10 stream with instant skin switching and Web Audio visualizations.*
+
+---
+
 ## Preview
 
 | Cinema (Expanded) | Retro XP (Video) | Minimal |
