@@ -1,0 +1,48 @@
+{
+  "name": "fold-videojs",
+  "version": "1.0.0",
+  "description": "FOLD — An open-source Video.js v10 player with cinematic skins, nostalgic music visualizations, accessible controls, and creative playback tools.",
+  "author": "Sharique Shaikh",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sharique-shaikh-git/fold-videojs.git"
+  },
+  "homepage": "https://github.com/Sharique-shaikh-git/fold-videojs#readme",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node tests/verify-seeking.cjs && node tests/verify-music-suite.cjs",
+    "test:seeking": "node tests/verify-seeking.cjs",
+    "test:music": "node tests/verify-music-suite.cjs",
+    "deploy": "node apps/preview/deploy.mjs",
+    "deploy:vercel": "pnpm dlx vercel@64 build && pnpm dlx vercel@64 deploy --prebuilt",
+    "deploy:netlify": "pnpm dlx netlify-cli@27 deploy --build",
+    "deploy:cloudflare": "pnpm run build && pnpm dlx wrangler@4 pages deploy dist --project-name fold"
+  },
+  "dependencies": {
+    "@videojs/core": "10.4.0",
+    "@videojs/react": "10.4.0",
+    "cn": "^0.4.0",
+    "react": "^19.3.0"
+  },
+  "devDependencies": {
+    "@base-ui/react": "^1.6.0",
+    "@heroicons/react": "^2.2.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@videojs/mux-video": "10.4.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "class-variance-authority": "^0.7.1",
+    "playwright": "^1.65.1",
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}

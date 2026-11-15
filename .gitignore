@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Production build artifacts
+dist/
+
+# Local configuration & environment
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Hosting CLIs & deployment caches
+.vercel/
+.netlify/
+.wrangler/
+
+# Test output & reporting
+test-results/
+playwright-report/
+blob-report/
+*.log

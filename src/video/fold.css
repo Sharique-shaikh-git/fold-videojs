@@ -1,0 +1,2818 @@
+/* ==========================================================================
+   FOLD — The Living Cinema Interface
+   Official Video.js v10 Skin Stylesheet
+   Palette: Graphite #111418, Warm Ivory #F5F2EA, Vermilion #F05B48, Muted Grays
+   ========================================================================== */
+
+:root,
+.media-skin {
+  --fold-graphite: #111418;
+  --fold-surface: #16191E;
+  --fold-surface-elevated: #1F232B;
+  --fold-surface-card: #171A20;
+  --fold-border: #262B33;
+  --fold-border-light: #323844;
+  --fold-ivory: #F5F2EA;
+  --fold-muted: #8E95A2;
+  --fold-dim: #545B68;
+  --fold-vermilion: #F05B48;
+  --fold-vermilion-hover: #FA6E5C;
+  --fold-vermilion-subtle: rgba(240, 91, 72, 0.16);
+  --fold-metallic: #2E333C;
+  --fold-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fold-font-mono: ui-monospace, SFMono-Regular, "Roboto Mono", "Cascadia Code", Menlo, monospace;
+
+  /* Overwrite base Video.js skin tokens */
+  --media-accent-color: var(--fold-vermilion);
+  --media-primary: var(--fold-vermilion);
+  --media-ring: var(--fold-vermilion);
+  --media-foreground: var(--fold-ivory);
+  --media-background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Backdrop Scrim over Video (Ensures >7:1 contrast on all scenes)
+   -------------------------------------------------------------------------- */
+.fold-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(17, 20, 24, 0.8) 0%,
+    rgba(17, 20, 24, 0.3) 15%,
+    transparent 35%,
+    transparent 60%,
+    rgba(17, 20, 24, 0.6) 80%,
+    rgba(17, 20, 24, 0.95) 100%
+  );
+  opacity: 1;
+  transition: opacity 250ms ease;
+  z-index: 1;
+}
+
+.fold-controls-root:not([data-visible]):not(:has(:focus-visible)):not(.is-fold-expanded) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fold-controls-root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  z-index: 2;
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-sans);
+  transition: opacity 250ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   Top Rail: Editorial Cinema Header
+   -------------------------------------------------------------------------- */
+.fold-top-rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: linear-gradient(to bottom, rgba(17, 20, 24, 0.85) 0%, transparent 100%);
+  pointer-events: auto;
+}
+
+.fold-top-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fold-editorial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: var(--fold-surface);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.fold-tally-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fold-vermilion);
+  box-shadow: 0 0 6px var(--fold-vermilion);
+}
+
+.media-title {
+  color: var(--fold-ivory);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.fold-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Center Spacer
+   -------------------------------------------------------------------------- */
+.fold-center-spacer {
+  flex: 1;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   The FOLD Deck Surface (Container for Compact & Expanded)
+   -------------------------------------------------------------------------- */
+.fold-deck-surface {
+  position: relative;
+  z-index: 10;
+  background: var(--fold-graphite);
+  border-top: 1px solid var(--fold-border);
+  pointer-events: auto;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 82%;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.fold-deck-surface.is-compact {
+  overflow: visible;
+}
+
+.fold-deck-surface.is-expanded {
+  overflow-y: auto;
+}
+
+/* --------------------------------------------------------------------------
+   COMPACT BAR: Minimal Cinema Transport Strip
+   -------------------------------------------------------------------------- */
+.fold-compact-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 16px;
+}
+
+.fold-compact-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.fold-compact-center {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.fold-compact-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   EXPANDED DECK: The Architectural Cinema Command Console
+   -------------------------------------------------------------------------- */
+.fold-expanded-deck {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 18px 16px 18px;
+  gap: 12px;
+  background: var(--fold-graphite);
+  border-top: 1px solid var(--fold-border-light);
+  animation: foldSlideUp 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes foldSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fold-expanded-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--fold-border);
+  gap: 12px;
+}
+
+.fold-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fold-collapse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.fold-collapse-btn:hover {
+  background: var(--fold-vermilion);
+  color: #fff;
+  border-color: var(--fold-vermilion);
+}
+
+.fold-collapse-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   Telemetry Strip (Genuine Live Video Metadata)
+   -------------------------------------------------------------------------- */
+.fold-telemetry-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  color: var(--fold-muted);
+  letter-spacing: 0.06em;
+}
+
+.fold-telemetry-item {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.fold-telemetry-key {
+  color: var(--fold-dim);
+}
+
+.fold-telemetry-val {
+  color: var(--fold-ivory);
+  font-weight: 600;
+}
+
+.fold-telemetry-sep {
+  color: var(--fold-border-light);
+}
+
+/* --------------------------------------------------------------------------
+   Ruler Scrubber (The Calibrated Film Timeline)
+   -------------------------------------------------------------------------- */
+.fold-expanded-ruler-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--fold-surface);
+  border: 1px solid var(--fold-border);
+  padding: 10px 16px 14px 16px;
+}
+
+.fold-ruler-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.fold-ruler-title {
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--fold-muted);
+}
+
+.fold-ruler-container {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fold-ruler-expanded {
+  height: 52px;
+}
+
+/* ==========================================================================
+   SHARED SEEKING ARCHITECTURE (Unified across Cinema, Retro, Minimal)
+   ========================================================================== */
+.fold-shared-seek-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Generous 28px hit-box so clicks and drags are effortless and reliable */
+.fold-shared-slider {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+
+.fold-shared-slider[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Continuous Horizontal Track */
+.fold-seek-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #14181f;
+  border: 1px solid rgba(245, 242, 234, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none; /* Pointer events bubble cleanly to the slider root */
+}
+
+/* Buffered Progress */
+.fold-seek-buffer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--media-slider-buffer, 0%);
+  background: #3e4756;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Played Progress Fill (Continuously fills left to right) */
+.fold-seek-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--media-slider-fill, 0%);
+  background: #F05B48;
+  box-shadow: 0 0 10px rgba(240, 91, 72, 0.7);
+  pointer-events: none;
+}
+
+/* While dragging, fill follows pointer smoothly without lag */
+.fold-shared-slider[data-dragging] .fold-seek-fill {
+  width: var(--media-slider-pointer, var(--media-slider-fill, 0%));
+}
+
+/* Draggable Tactile Thumb */
+.fold-seek-thumb {
+  position: absolute;
+  left: var(--media-slider-fill, 0%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  pointer-events: auto; /* MUST BE INTERACTIVE for mouse & touch drag! */
+  z-index: 10;
+  outline: none;
+  touch-action: none;
+}
+
+.fold-shared-slider[data-dragging] .fold-seek-thumb {
+  left: var(--media-slider-pointer, var(--media-slider-fill, 0%));
+  cursor: grabbing;
+}
+
+/* --------------------------------------------------------------------------
+   Cinema Theme Styling
+   -------------------------------------------------------------------------- */
+.fold-shared-slider.is-cinema .fold-seek-track {
+  height: 8px;
+  background: #161b22;
+  border: 1px solid rgba(245, 242, 234, 0.2);
+}
+
+.fold-shared-slider.is-cinema.is-expanded .fold-seek-track {
+  height: 12px;
+}
+
+.fold-shared-slider.is-cinema .fold-seek-fill {
+  background: #F05B48;
+  box-shadow: 0 0 10px rgba(240, 91, 72, 0.7);
+}
+
+.fold-cinema-playhead {
+  position: relative;
+  width: 18px;
+  height: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.fold-shared-slider.is-cinema.is-expanded .fold-cinema-playhead {
+  width: 22px;
+  height: 34px;
+}
+
+.fold-cinema-cap {
+  width: 14px;
+  height: 14px;
+  background: #F5F2EA;
+  border: 2px solid #F05B48;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 0 6px rgba(240, 91, 72, 0.5);
+}
+
+.fold-shared-slider.is-cinema.is-expanded .fold-cinema-cap {
+  width: 16px;
+  height: 16px;
+}
+
+.fold-cinema-dot {
+  position: absolute;
+  top: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #F05B48;
+}
+
+.fold-shared-slider.is-cinema.is-expanded .fold-cinema-dot {
+  top: 6px;
+  width: 6px;
+  height: 6px;
+}
+
+.fold-cinema-needle {
+  width: 2px;
+  flex: 1;
+  background: #F05B48;
+  box-shadow: 0 0 3px #F05B48;
+}
+
+/* --------------------------------------------------------------------------
+   Retro XP Theme Styling
+   -------------------------------------------------------------------------- */
+.fold-shared-slider.is-retro {
+  height: 24px;
+}
+
+.fold-shared-slider.is-retro .fold-seek-track {
+  height: 6px;
+  background: #3c3830;
+  border: 1px inset #5c5648;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.fold-shared-slider.is-retro .fold-seek-fill {
+  background: linear-gradient(180deg, #40b0ff 0%, #0055d8 100%);
+  box-shadow: none;
+}
+
+.fold-shared-slider.is-retro .fold-seek-buffer {
+  background: #585040;
+}
+
+.fold-retro-handle {
+  width: 14px;
+  height: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #cfc8b8 100%);
+  border: 1px solid #484438;
+  border-radius: 2px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.fold-shared-slider.is-retro:hover .fold-retro-handle,
+.fold-shared-slider.is-retro[data-dragging] .fold-retro-handle {
+  background: linear-gradient(180deg, #ffffff 0%, #ffe6a0 100%);
+}
+
+/* --------------------------------------------------------------------------
+   Minimal Theme Styling
+   -------------------------------------------------------------------------- */
+.fold-shared-slider.is-minimal {
+  height: 20px;
+}
+
+.fold-shared-slider.is-minimal .fold-seek-track {
+  height: 4px;
+  background: rgba(245, 242, 234, 0.15);
+  border: 1px solid rgba(245, 242, 234, 0.1);
+  border-radius: 2px;
+}
+
+.fold-shared-slider.is-minimal .fold-seek-fill {
+  background: #F5F2EA;
+  box-shadow: 0 0 8px rgba(245, 242, 234, 0.6);
+}
+
+.fold-shared-slider.is-minimal .fold-seek-buffer {
+  background: rgba(245, 242, 234, 0.25);
+}
+
+.fold-min-handle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #F5F2EA;
+  border: 2px solid #F05B48;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Decorative Calibration Marks (Cinema only, strictly pointer-events: none)
+   -------------------------------------------------------------------------- */
+.fold-shared-calibration {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  margin-top: 2px;
+  pointer-events: none;
+}
+
+.fold-cal-mark {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.fold-cal-tick {
+  width: 1px;
+  height: 4px;
+  background: var(--fold-dim, #545B68);
+}
+
+.fold-cal-label {
+  font-family: var(--fold-font-mono, monospace);
+  font-size: 8px;
+  color: var(--fold-muted, #8E95A2);
+  margin-top: 1px;
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Hover & Drag Time Preview Tooltip
+   -------------------------------------------------------------------------- */
+.fold-seek-preview {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  background: var(--fold-graphite);
+  border: 1px solid var(--fold-ivory);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 40;
+  border-radius: 2px;
+}
+
+.fold-seek-thumbnail-root {
+  overflow: hidden;
+  border: 1px solid var(--fold-border);
+}
+
+.fold-seek-thumbnail-img {
+  display: block;
+  max-width: 140px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.fold-seek-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fold-ivory);
+}
+
+.fold-seek-cue-tag {
+  color: var(--fold-vermilion);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.fold-seek-preview-time {
+  color: var(--fold-ivory);
+}
+
+
+/* --------------------------------------------------------------------------
+   Seamless Unified Console Deck (Divided by Hairlines)
+   -------------------------------------------------------------------------- */
+.fold-expanded-console {
+  display: flex;
+  align-items: stretch;
+  background: var(--fold-surface-card);
+  border: 1px solid var(--fold-border);
+}
+
+.fold-console-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.fold-sec-divider {
+  width: 1px;
+  background: var(--fold-border);
+  flex-shrink: 0;
+}
+
+.fold-sec-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--fold-border);
+  padding-bottom: 5px;
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--fold-ivory);
+}
+
+.fold-sec-sub {
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  color: var(--fold-muted);
+  letter-spacing: 0.08em;
+}
+
+.fold-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 1px;
+}
+
+.fold-status-badge.is-running {
+  background: var(--fold-vermilion-subtle);
+  color: var(--fold-vermilion);
+}
+
+.fold-status-badge.is-paused {
+  background: rgba(245, 242, 234, 0.08);
+  color: var(--fold-muted);
+}
+
+.fold-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.fold-sec-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+}
+
+.fold-optics-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons & Controls Common Styling
+   -------------------------------------------------------------------------- */
+.fold-play-btn,
+.fold-tool-btn,
+.fold-screen-btn,
+.fold-compact-seek,
+.fold-mute-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fold-surface-elevated);
+  color: var(--fold-ivory);
+  border: 1px solid var(--fold-border);
+  padding: 0;
+  cursor: pointer;
+  transition: all 120ms ease;
+  position: relative;
+}
+
+.fold-play-btn button,
+.fold-tool-btn,
+.fold-screen-btn button,
+.fold-compact-seek button,
+.fold-mute-btn button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+/* Large Master Play Button */
+.fold-play-large {
+  height: 38px;
+  padding: 0 14px;
+  background: var(--fold-vermilion);
+  color: #fff;
+  border-color: var(--fold-vermilion);
+  font-family: var(--fold-font-mono);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.fold-play-large button {
+  gap: 8px;
+}
+
+.fold-play-large:hover {
+  background: var(--fold-vermilion-hover);
+  border-color: var(--fold-vermilion-hover);
+}
+
+/* Normal Play Button in compact bar */
+.fold-play-normal {
+  width: 36px;
+  height: 36px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border-light);
+}
+
+.fold-play-normal:hover {
+  background: var(--fold-vermilion);
+  color: #fff;
+  border-color: var(--fold-vermilion);
+}
+
+/* Tool Buttons in Transport Pod */
+.fold-tool-btn {
+  width: 38px;
+  height: 38px;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fold-tool-btn:hover {
+  background: var(--fold-border-light);
+  color: var(--fold-ivory);
+}
+
+.fold-tool-sub {
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--fold-muted);
+}
+
+/* Compact bar seek buttons */
+.fold-compact-seek {
+  width: 28px;
+  height: 28px;
+}
+
+.fold-compact-seek:hover {
+  background: var(--fold-border-light);
+}
+
+.fold-icon-compact {
+  width: 14px;
+  height: 14px;
+}
+
+/* Screen action buttons (CC, PiP, Fullscreen) */
+.fold-screen-btn {
+  width: 34px;
+  height: 34px;
+}
+
+.fold-screen-btn:hover {
+  background: var(--fold-border-light);
+  color: var(--fold-ivory);
+}
+
+.fold-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.fold-icon-muted {
+  color: var(--fold-vermilion);
+}
+
+/* --------------------------------------------------------------------------
+   THE FOLD SIGNATURE TOGGLE BUTTON
+   -------------------------------------------------------------------------- */
+.fold-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-vermilion);
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.fold-toggle-btn:hover {
+  background: var(--fold-vermilion);
+  color: #fff;
+  box-shadow: 0 0 12px var(--fold-vermilion-subtle);
+}
+
+.fold-toggle-badge {
+  color: var(--fold-vermilion);
+}
+
+.fold-toggle-btn:hover .fold-toggle-badge {
+  color: #fff;
+}
+
+.fold-toggle-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   SMPTE Timecode Display
+   -------------------------------------------------------------------------- */
+.fold-timecode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--fold-surface);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+
+.fold-timecode-btn:hover {
+  border-color: var(--fold-vermilion);
+}
+
+.fold-timecode-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--fold-vermilion);
+  background: var(--fold-vermilion-subtle);
+  padding: 1px 3px;
+  border-radius: 1px;
+}
+
+.fold-time-f {
+  color: var(--fold-vermilion);
+}
+
+.fold-timecode-separator {
+  color: var(--fold-dim);
+}
+
+.fold-timecode-duration {
+  color: var(--fold-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Volume Pod & Calibrated Stereo Gain Meter
+   -------------------------------------------------------------------------- */
+.fold-volume-pod {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.fold-volume-compact {
+  width: auto;
+}
+
+.fold-mute-btn {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.fold-volume-slider-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fold-volume-slider {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.fold-volume-track {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+}
+
+.fold-volume-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--media-slider-fill, 1) * 100%);
+  background: var(--fold-ivory);
+}
+
+.fold-volume-thumb {
+  position: absolute;
+  left: calc(var(--media-slider-fill, 1) * 100%);
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--fold-vermilion);
+  transform: translate(-50%, -50%);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.fold-volume-readout {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  color: var(--fold-muted);
+}
+
+.fold-vol-db {
+  color: var(--fold-dim);
+}
+
+/* Calibrated LED Gain Ladder */
+.fold-calibrated-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 6px;
+  background: var(--fold-surface);
+  border: 1px solid var(--fold-border);
+  flex-shrink: 0;
+}
+
+.fold-meter-channel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fold-meter-tag {
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--fold-dim);
+  width: 8px;
+}
+
+.fold-led-ladder {
+  display: flex;
+  gap: 2px;
+}
+
+.fold-led-segment {
+  width: 3px;
+  height: 8px;
+  background: var(--fold-metallic);
+  border-radius: 0.5px;
+  transition: background-color 80ms ease;
+}
+
+.fold-led-segment.is-lit {
+  background: var(--fold-ivory);
+  box-shadow: 0 0 3px rgba(245, 242, 234, 0.4);
+}
+
+.fold-led-segment.is-lit.is-hot-led {
+  background: var(--fold-vermilion);
+  box-shadow: 0 0 4px var(--fold-vermilion);
+}
+
+/* --------------------------------------------------------------------------
+   Speed Selector Chips
+   -------------------------------------------------------------------------- */
+.fold-speed-pod {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.fold-speed-chips {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.fold-speed-chip {
+  padding: 4px 7px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-muted);
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.fold-speed-chip:hover {
+  border-color: var(--fold-border-light);
+  color: var(--fold-ivory);
+}
+
+.fold-speed-chip.is-active {
+  background: var(--fold-vermilion);
+  border-color: var(--fold-vermilion);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Multilingual Captions Dropdown & RTL Rendering
+   -------------------------------------------------------------------------- */
+.fold-captions-menu-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.fold-captions-trigger.is-active {
+  border-color: var(--fold-vermilion);
+  color: var(--fold-vermilion);
+}
+
+.fold-captions-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--fold-vermilion);
+  color: #fff;
+  font-family: var(--fold-font-mono);
+  font-size: 7px;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 1px;
+}
+
+.fold-captions-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  min-width: 210px;
+  background: var(--fold-graphite);
+  border: 1px solid var(--fold-border-light);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+}
+
+.fold-dropdown-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--fold-border);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fold-dropdown-title {
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--fold-ivory);
+}
+
+.fold-dropdown-sub {
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  color: var(--fold-dim);
+}
+
+.fold-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+}
+
+.fold-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  color: var(--fold-ivory);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 120ms ease;
+  width: 100%;
+}
+
+.fold-dropdown-item:hover,
+.fold-dropdown-item:focus-visible {
+  background: var(--fold-surface-elevated);
+  color: var(--fold-vermilion);
+}
+
+.fold-dropdown-item.is-checked {
+  color: var(--fold-vermilion);
+  font-weight: 700;
+}
+
+.fold-radio-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--fold-dim);
+  flex-shrink: 0;
+}
+
+.fold-dropdown-item.is-checked .fold-radio-indicator {
+  border-color: var(--fold-vermilion);
+  background: var(--fold-vermilion);
+  box-shadow: 0 0 4px var(--fold-vermilion);
+}
+
+.fold-rtl-tag {
+  margin-left: auto;
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  background: rgba(240, 91, 72, 0.12);
+  color: var(--fold-vermilion);
+  padding: 1px 4px;
+  border-radius: 1px;
+}
+
+.fold-dropdown-empty {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--fold-muted);
+}
+
+/* RTL WebVTT Cue Rendering */
+.media-container[data-caption-rtl="true"] video::cue,
+.media-container[dir="rtl"] video::cue {
+  direction: rtl !important;
+  text-align: right !important;
+  font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Segoe UI', Tahoma, sans-serif !important;
+}
+
+/* Native WebVTT Styling for High Contrast */
+video::cue {
+  background-color: rgba(17, 20, 24, 0.85) !important;
+  color: #F5F2EA !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  padding: 4px 8px !important;
+  border-radius: 2px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Creative Capture Tools & Range Trimmer
+   -------------------------------------------------------------------------- */
+.fold-creative-tools-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.fold-creative-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fold-capture-btn.is-captured {
+  background: var(--fold-vermilion);
+  color: #fff;
+}
+
+.fold-clip-mode-btn.is-active {
+  background: var(--fold-vermilion);
+  color: #fff;
+  border-color: var(--fold-vermilion);
+}
+
+.fold-capture-feedback {
+  position: absolute;
+  top: 50px;
+  right: 18px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: var(--fold-font-mono);
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border-light);
+  color: var(--fold-ivory);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  z-index: 60;
+}
+
+.fold-capture-feedback.is-error {
+  border-color: var(--fold-vermilion);
+  color: var(--fold-vermilion);
+}
+
+/* Range Clipping Drawer & Interactive Sliders */
+.fold-clip-drawer {
+  position: relative;
+  background: var(--fold-surface-card);
+  border: 1px solid var(--fold-border-light);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 6px 0;
+  width: 100%;
+}
+
+.fold-clip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--fold-border);
+  padding-bottom: 4px;
+}
+
+.fold-clip-title {
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--fold-vermilion);
+}
+
+.fold-clip-duration {
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  color: var(--fold-muted);
+}
+
+.fold-clip-duration strong {
+  color: var(--fold-ivory);
+}
+
+.fold-clip-sliders-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fold-clip-handle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fold-handle-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fold-clip-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border);
+  outline: none;
+  cursor: pointer;
+}
+
+.fold-clip-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--fold-vermilion);
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+.fold-clip-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--fold-vermilion);
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+.fold-nudge-btn {
+  padding: 3px 6px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-muted);
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.fold-nudge-btn:hover {
+  color: var(--fold-ivory);
+  border-color: var(--fold-border-light);
+}
+
+.fold-mark-btn {
+  padding: 3px 8px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fold-mark-btn:hover {
+  background: var(--fold-vermilion);
+  color: #fff;
+  border-color: var(--fold-vermilion);
+}
+
+.fold-point-label {
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  color: var(--fold-dim);
+}
+
+.fold-point-label strong {
+  color: var(--fold-ivory);
+}
+
+.fold-clip-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.fold-clip-preview-btn {
+  padding: 5px 12px;
+  background: var(--fold-vermilion);
+  border: 1px solid var(--fold-vermilion);
+  color: #fff;
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fold-clip-preview-btn.is-looping {
+  background: #fff;
+  color: var(--fold-graphite);
+}
+
+.fold-clip-export-btn {
+  padding: 5px 10px;
+  background: var(--fold-surface-elevated);
+  border: 1px solid var(--fold-border);
+  color: var(--fold-ivory);
+  font-family: var(--fold-font-mono);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.fold-clip-export-btn:hover {
+  background: var(--fold-border-light);
+}
+
+.fold-clip-close-btn {
+  padding: 2px 6px;
+  background: transparent;
+  border: none;
+  color: var(--fold-muted);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.fold-clip-close-btn:hover {
+  color: var(--fold-ivory);
+}
+
+/* --------------------------------------------------------------------------
+   Settings Menu Integration (Video.js Core Menu Styling)
+   -------------------------------------------------------------------------- */
+.media-menu-content {
+  background: var(--fold-graphite) !important;
+  border: 1px solid var(--fold-border-light) !important;
+  color: var(--fold-ivory) !important;
+  font-family: var(--fold-font-sans) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8) !important;
+  border-radius: 0 !important;
+  min-width: 190px !important;
+  padding: 4px !important;
+}
+
+.media-menu-item {
+  border-radius: 0 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--fold-ivory) !important;
+  padding: 8px 12px !important;
+}
+
+.media-menu-item:hover,
+.media-menu-item:focus-visible {
+  background: var(--fold-surface-elevated) !important;
+  color: var(--fold-vermilion) !important;
+}
+
+.media-menu-radio-item[data-checked] {
+  color: var(--fold-vermilion) !important;
+  font-weight: 700 !important;
+}
+
+.media-menu-separator {
+  background: var(--fold-border) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility Focus Rings (High Contrast Vermilion)
+   -------------------------------------------------------------------------- */
+button:focus-visible,
+[role="button"]:focus-visible,
+[role="slider"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="menuitemradio"]:focus-visible {
+  outline: 2px solid var(--fold-vermilion) !important;
+  outline-offset: 2px !important;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layout & Container Queries (Mobile Refinements)
+   -------------------------------------------------------------------------- */
+@container (max-width: 820px) {
+  .fold-expanded-console {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--fold-border);
+  }
+  .fold-console-section {
+    background: var(--fold-surface-card);
+    padding: 8px 10px;
+    gap: 6px;
+    min-width: 0;
+  }
+  .fold-sec-divider {
+    display: none;
+  }
+}
+
+@container (max-width: 520px) {
+  .fold-expanded-deck {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .fold-compact-bar {
+    padding: 0 8px;
+    gap: 6px;
+    height: 48px;
+  }
+  .fold-compact-seek {
+    display: none;
+  }
+  .fold-top-meta .media-title {
+    display: none;
+  }
+  .fold-telemetry-strip {
+    font-size: 8px;
+    gap: 3px;
+    flex-wrap: wrap;
+  }
+  .fold-clip-drawer {
+    padding: 8px;
+  }
+  .fold-captions-dropdown {
+    width: 200px;
+    max-width: calc(100vw - 20px);
+  }
+}
+
+@container (max-width: 375px) {
+  .fold-compact-center {
+    display: none;
+  }
+  .fold-expanded-console {
+    grid-template-columns: 1fr;
+  }
+  .fold-compact-bar {
+    gap: 4px;
+    padding: 0 6px;
+  }
+  .fold-toggle-badge {
+    display: none;
+  }
+}
+
+@container (max-height: 320px) {
+  .fold-top-rail {
+    display: none;
+  }
+  .fold-expanded-deck {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  .fold-expanded-header {
+    padding-bottom: 2px;
+  }
+  .fold-telemetry-strip {
+    display: none;
+  }
+  .fold-expanded-ruler-block {
+    display: none;
+  }
+  .fold-console-section {
+    padding: 4px 8px;
+    gap: 2px;
+  }
+  .fold-sec-controls {
+    height: 32px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Touch Target Optimizations (44px Minimum for Coarse Pointers)
+   -------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  .fold-play-normal,
+  .fold-screen-btn,
+  .fold-collapse-btn,
+  .fold-toggle-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .fold-time-slider {
+    height: 44px;
+  }
+  .fold-compact-bar {
+    height: 60px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion Accessibility
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Forced Colors (High Contrast Mode)
+   -------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+  .fold-deck-surface,
+  .fold-expanded-deck,
+  .fold-console-section,
+  .fold-timecode-btn,
+  .fold-toggle-btn,
+  .fold-collapse-btn,
+  .fold-clip-drawer {
+    border: 1px solid ButtonText !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+  }
+  .fold-slider-fill,
+  .fold-volume-fill,
+  .fold-clip-preview-btn {
+    background: Highlight !important;
+  }
+}
+
+/* ==========================================================================
+   MULTI-SKIN ARCHITECTURE: THEME SELECTOR & SKINS
+   ========================================================================== */
+
+/* Theme Selector Pill Group */
+.fold-theme-pill-select {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--fold-border-light);
+  padding: 2px;
+  gap: 2px;
+  border-radius: 2px;
+}
+
+.fold-theme-chip {
+  padding: 3px 8px;
+  background: transparent;
+  border: none;
+  color: var(--fold-muted);
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: all 120ms ease;
+}
+
+.fold-theme-chip:hover {
+  color: var(--fold-ivory);
+}
+
+.fold-theme-chip.is-active {
+  background: var(--fold-vermilion);
+  color: #fff;
+}
+
+/* ==========================================================================
+   THEME 2: RETRO XP (Windows XP / Windows Media Player 11 Nostalgia)
+   ========================================================================== */
+.fold-retro-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  z-index: 20;
+}
+
+.fold-retro-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 20, 60, 0.4) 0%, transparent 25%, transparent 75%, rgba(0, 10, 30, 0.8) 100%);
+  pointer-events: none;
+}
+
+/* Windows XP Luna Title Bar */
+.fold-xp-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  padding: 0 8px;
+  background: linear-gradient(180deg, #0055ea 0%, #003bb3 100%);
+  border-bottom: 1px solid #002266;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  pointer-events: auto;
+}
+
+.fold-xp-title-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-shadow: 1px 1px 1px #001f5c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fold-xp-wmp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 35% 35%, #ff8000, #cc3300);
+  border: 1px solid #fff;
+  border-radius: 50%;
+  font-size: 8px;
+}
+
+.fold-xp-window-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fold-xp-win-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+  background: linear-gradient(180deg, #3c82ea 0%, #1555c8 100%);
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.fold-xp-win-btn.fold-xp-close {
+  background: linear-gradient(180deg, #e85538 0%, #c42608 100%);
+}
+
+.fold-xp-win-btn:hover {
+  filter: brightness(1.15);
+}
+
+/* Center Spacer for Video Mode (Keeps video screen completely unobstructed) */
+.fold-retro-center-spacer {
+  flex: 1;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   FOLD RETRO MUSIC SUITE (Standalone Windows Media Player 9/10 Interface)
+   Strictly separated from Video; Zero video audio desync, zero auto-play.
+   ========================================================================== */
+[data-fold-experience="music"] video {
+  visibility: hidden !important;
+}
+
+.fold-retro-music-suite {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: #080d14;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  pointer-events: auto;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Back to Video Button in Titlebar */
+.fold-xp-back-video-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 8px;
+  background: linear-gradient(180deg, #3c82ea 0%, #1555c8 100%);
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  color: #ffffff;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.fold-xp-back-video-btn:hover {
+  filter: brightness(1.2);
+}
+
+/* Music Switch Buttons in Video Mode */
+.fold-experience-chip,
+.fold-xp-music-switch-btn,
+.fold-min-music-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 9px;
+  background: linear-gradient(180deg, #ff7a00 0%, #d83e00 100%);
+  border: 1px solid #ffaa44;
+  border-radius: 3px;
+  color: #ffffff;
+  font-family: var(--fold-font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.fold-experience-chip:hover,
+.fold-xp-music-switch-btn:hover,
+.fold-min-music-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.fold-experience-chip:active,
+.fold-xp-music-switch-btn:active,
+.fold-min-music-btn:active {
+  transform: translateY(0);
+}
+
+/* WMP Classic Menu Bar */
+.fold-wmp-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  padding: 0 10px;
+  background: linear-gradient(180deg, #ece9d8 0%, #d8d4c2 100%);
+  border-bottom: 1px solid #9c9886;
+  font-size: 11px;
+}
+
+.fold-wmp-menu-left,
+.fold-wmp-menu-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fold-wmp-menu-btn {
+  padding: 2px 7px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: #202020;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.fold-wmp-menu-btn:hover {
+  background: #ffffff;
+  border-color: #8c8876;
+}
+
+.fold-wmp-menu-btn.is-active {
+  background: #0050d8;
+  color: #ffffff;
+  border-color: #003099;
+}
+
+.fold-wmp-menu-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #555;
+  font-family: var(--fold-font-mono, monospace);
+  letter-spacing: 0.05em;
+}
+
+.fold-wmp-preset-btn {
+  padding: 2px 6px;
+  background: #e0ded4;
+  border: 1px solid #a09c8e;
+  border-radius: 2px;
+  color: #1a1a1a;
+  font-size: 9px;
+  font-family: 'Tahoma', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fold-wmp-preset-btn:hover {
+  background: #ffffff;
+}
+
+.fold-wmp-preset-btn.is-active {
+  background: #0055ea;
+  color: #ffffff;
+  border-color: #0033aa;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* WMP Center Stage */
+.fold-wmp-center-stage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  background: radial-gradient(circle at 50% 40%, #101826 0%, #06090e 100%);
+  overflow: hidden;
+}
+
+.fold-wmp-center-stage.is-drag-over {
+  outline: 2px dashed #00e5ff;
+  outline-offset: -8px;
+  background: #0b1c2e;
+}
+
+/* Empty State */
+.fold-wmp-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  color: #c0c8d4;
+}
+
+.fold-wmp-vinyl-art {
+  margin-bottom: 16px;
+}
+
+.fold-wmp-disc {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1a1f26 0%, #0d1015 60%, #05070a 100%);
+  border: 2px solid #323d4e;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 229, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: foldDiscSpin 16s linear infinite;
+}
+
+@keyframes foldDiscSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fold-wmp-disc-grooves {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.fold-wmp-disc-center {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f05b48 0%, #ffd600 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.fold-wmp-disc-logo {
+  font-size: 8px;
+  font-weight: 800;
+  color: #111418;
+  font-family: var(--fold-font-mono, monospace);
+  letter-spacing: -0.05em;
+}
+
+.fold-wmp-empty-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f5f2ea;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
+}
+
+.fold-wmp-empty-sub {
+  font-size: 11px;
+  color: #8a96a8;
+  max-width: 420px;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.fold-wmp-empty-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fold-wmp-primary-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 14px;
+  background: linear-gradient(180deg, #3c82ea 0%, #1555c8 100%);
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 85, 234, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.fold-wmp-primary-upload-btn:hover {
+  filter: brightness(1.15);
+}
+
+.fold-wmp-secondary-demo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 14px;
+  background: linear-gradient(180deg, #e4e0d4 0%, #b8b2a2 100%);
+  border: 1px solid #746e60;
+  border-radius: 3px;
+  color: #24221c;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.fold-wmp-secondary-demo-btn:hover {
+  background: #ffffff;
+}
+
+/* Active Stage Content */
+.fold-wmp-stage-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  gap: 8px;
+}
+
+.fold-wmp-track-meta-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: rgba(14, 22, 34, 0.85);
+  border: 1px solid #203044;
+  border-radius: 3px;
+}
+
+.fold-wmp-meta-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fold-wmp-track-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #00ff66;
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+  font-family: var(--fold-font-mono, monospace);
+}
+
+.fold-wmp-track-artist {
+  font-size: 10px;
+  color: #8ea8c2;
+}
+
+.fold-wmp-meta-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.fold-wmp-audio-badge {
+  font-size: 8px;
+  font-weight: 700;
+  color: #00e5ff;
+  letter-spacing: 0.08em;
+  font-family: var(--fold-font-mono, monospace);
+}
+
+.fold-wmp-track-num {
+  font-size: 9px;
+  color: #728a9e;
+  font-family: var(--fold-font-mono, monospace);
+}
+
+.fold-wmp-visualizer-wrap {
+  flex: 1;
+  display: flex;
+  min-height: 180px;
+}
+
+/* Playlist Drawer */
+.fold-wmp-playlist-drawer {
+  width: 240px;
+  background: #0d141e;
+  border-left: 1px solid #1e2c3e;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.fold-wmp-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: linear-gradient(180deg, #182436 0%, #0e1622 100%);
+  border-bottom: 1px solid #243448;
+}
+
+.fold-wmp-drawer-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: #8ea8c2;
+  letter-spacing: 0.06em;
+  font-family: var(--fold-font-mono, monospace);
+}
+
+.fold-wmp-drawer-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fold-wmp-drawer-btn {
+  padding: 1px 5px;
+  background: #1e2c3e;
+  border: 1px solid #364a62;
+  border-radius: 2px;
+  color: #c0d4ea;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.fold-wmp-drawer-btn:hover {
+  background: #2a3c54;
+  color: #ffffff;
+}
+
+.fold-wmp-drawer-close {
+  background: transparent;
+  border: none;
+  color: #8ea8c2;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.fold-wmp-drawer-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fold-wmp-drawer-empty {
+  padding: 16px;
+  text-align: center;
+  font-size: 10px;
+  color: #55687a;
+}
+
+.fold-wmp-track-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 10px;
+  color: #a4b8cc;
+  border: 1px solid transparent;
+}
+
+.fold-wmp-track-row:hover {
+  background: #142030;
+  color: #ffffff;
+}
+
+.fold-wmp-track-row.is-active {
+  background: #162a44;
+  border-color: #0055ea;
+  color: #00ff66;
+}
+
+.fold-wmp-row-num {
+  width: 14px;
+  font-family: var(--fold-font-mono, monospace);
+  font-size: 9px;
+}
+
+.fold-wmp-row-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.fold-wmp-row-title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fold-wmp-row-artist {
+  font-size: 8px;
+  color: #64788c;
+}
+
+.fold-wmp-row-dur {
+  font-size: 9px;
+  font-family: var(--fold-font-mono, monospace);
+  color: #64788c;
+}
+
+.fold-wmp-row-remove {
+  background: transparent;
+  border: none;
+  color: #64788c;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0 2px;
+}
+
+.fold-wmp-row-remove:hover {
+  color: #ff4d4d;
+}
+
+/* Visualizer Container & CRT Styling */
+.fold-retro-vis-container {
+  flex: 1;
+  background: #060a0f;
+  border: 2px solid #2a3848;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9), inset 0 0 16px rgba(0, 255, 100, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fold-vis-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #141e28;
+}
+
+.fold-vis-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fold-vis-led-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff66;
+  box-shadow: 0 0 8px #00ff66;
+}
+
+.fold-vis-title {
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #a0b8cc;
+}
+
+.fold-vis-status {
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  padding: 1px 4px;
+  background: #142230;
+  color: #00e640;
+  border-radius: 1px;
+}
+
+.fold-vis-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fold-vis-db {
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  color: #6a8296;
+}
+
+.fold-vis-preset-pills {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.fold-vis-mode-btn {
+  padding: 2px 6px;
+  background: #182432;
+  border: 1px solid #2e4054;
+  color: #b0c8dc;
+  font-family: var(--fold-font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.fold-vis-mode-btn:hover {
+  background: #283a4e;
+  color: #ffffff;
+}
+
+.fold-vis-mode-btn.is-active {
+  background: #0055ea;
+  color: #ffffff;
+  border-color: #0033aa;
+}
+
+.fold-vis-canvas-wrap {
+  flex: 1;
+  width: 100%;
+  min-height: 140px;
+  background: #000;
+  border: 1px solid #141c24;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fold-vis-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Audio Scrubber in Console Bar */
+.fold-xp-music-scrubber {
+  position: relative;
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.fold-xp-music-track {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background: #242018;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.fold-xp-music-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #00aa33 0%, #00ff66 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(0, 255, 102, 0.4);
+}
+
+.fold-xp-music-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 9px;
+  height: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #d8d4c8 50%, #8e8a7c 100%);
+  border: 1px solid #3c3830;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.fold-xp-scrubber-hover-pill {
+  position: absolute;
+  top: -18px;
+  transform: translateX(-50%);
+  background: #111418;
+  color: #00ff66;
+  border: 1px solid #3a4856;
+  font-family: var(--fold-font-mono, monospace);
+  font-size: 8px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.fold-xp-music-vol-input {
+  width: 100%;
+  height: 4px;
+  accent-color: #00ff66;
+  cursor: pointer;
+}
+
+.fold-xp-shuffle-btn.is-active,
+.fold-xp-repeat-btn.is-active {
+  background: linear-gradient(180deg, #ff9933 0%, #cc5500 100%);
+  color: #fff;
+  border-color: #993300;
+}
+
+/* Classic Windows XP Control Bar */
+.fold-retro-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 0 14px;
+  background: linear-gradient(180deg, #d8d4c8 0%, #b8b4a4 50%, #8e8a7c 100%);
+  border-top: 1px solid #ffffff;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+/* Emerald Green LCD Digital Screen */
+.fold-xp-lcd-screen {
+  background: #001205;
+  border: 2px inset #5a5448;
+  padding: 4px 8px;
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: inset 0 0 6px rgba(0, 255, 100, 0.2);
+}
+
+.fold-lcd-top {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--fold-font-mono);
+  font-size: 7px;
+  color: #00aa33;
+  letter-spacing: 0.08em;
+}
+
+.fold-lcd-time {
+  font-family: var(--fold-font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: #00ff66;
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.6);
+  letter-spacing: 0.05em;
+}
+
+.fold-lcd-dur {
+  font-size: 10px;
+  color: #008822;
+}
+
+/* Classic XP Transport Buttons */
+.fold-xp-transport {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fold-xp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(180deg, #f0ede4 0%, #c8c2b4 100%);
+  border: 1px solid #6c6658;
+  border-radius: 3px;
+  color: #2a2820;
+  font-size: 11px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.fold-xp-btn:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #d8d2c4 100%);
+}
+
+.fold-xp-btn:active {
+  border-style: inset;
+  background: #b0aaa0;
+}
+
+/* Big Glossy XP Play Button */
+.fold-xp-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #4da0ff 0%, #0050d8 70%, #002e88 100%);
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  transition: transform 100ms ease;
+}
+
+.fold-xp-play-btn:hover {
+  filter: brightness(1.15);
+  transform: scale(1.05);
+}
+
+.fold-xp-play-btn:active {
+  transform: scale(0.96);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* XP Metallic Time Slider */
+.fold-xp-slider-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+/* XP Actions Row */
+.fold-xp-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fold-xp-action-pill {
+  padding: 4px 8px;
+  background: linear-gradient(180deg, #e4e0d4 0%, #b8b2a2 100%);
+  border: 1px solid #645e50;
+  border-radius: 2px;
+  color: #24221c;
+  font-family: var(--fold-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.fold-xp-action-pill:hover {
+  background: #fff;
+}
+
+.fold-xp-action-pill.is-active {
+  background: linear-gradient(180deg, #ff7a00 0%, #d83e00 100%);
+  color: #fff;
+  border-color: #8c2400;
+}
+
+.fold-xp-mute-btn {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.fold-xp-volume-slider-wrap {
+  width: 60px;
+}
+
+.fold-xp-vol-slider {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.fold-xp-vol-track {
+  width: 100%;
+  height: 4px;
+  background: #3c3830;
+  border-radius: 2px;
+  position: relative;
+}
+
+.fold-xp-vol-fill {
+  height: 100%;
+  width: calc(var(--media-slider-fill, 0) * 100%);
+  background: #00ff66;
+}
+
+.fold-xp-vol-thumb {
+  position: absolute;
+  left: calc(var(--media-slider-fill, 0) * 100%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 14px;
+  background: #f0ece0;
+  border: 1px solid #484438;
+}
+
+.fold-xp-fs-btn button {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  color: #2a2820;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ==========================================================================
+   THEME 3: MINIMAL (Floating Glass Pill Cinema Dock)
+   ========================================================================== */
+.fold-minimal-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.fold-minimal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 35%);
+  pointer-events: none;
+}
+
+.fold-minimal-topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  pointer-events: auto;
+}
+
+.fold-minimal-spacer {
+  flex: 1;
+  pointer-events: none;
+}
+
+/* Floating Centered Glass Dock */
+.fold-minimal-dock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 680px;
+  width: calc(100% - 32px);
+  margin: 0 auto 20px auto;
+  padding: 8px 16px;
+  background: rgba(17, 20, 24, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(245, 242, 234, 0.15);
+  border-radius: 32px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  pointer-events: auto;
+}
+
+.fold-min-play-btn button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--fold-vermilion);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.fold-min-play-btn button:hover {
+  transform: scale(1.08);
+}
+
+.fold-min-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.fold-min-icon-sm {
+  width: 14px;
+  height: 14px;
+  color: var(--fold-ivory);
+  opacity: 0.8;
+}
+
+.fold-min-seek-btn button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.fold-min-time {
+  font-family: var(--fold-font-mono);
+  font-size: 11px;
+  color: var(--fold-ivory);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.fold-min-cur {
+  font-weight: 600;
+}
+
+.fold-min-sep {
+  color: var(--fold-muted);
+  margin: 0 4px;
+}
+
+.fold-min-dur {
+  color: var(--fold-muted);
+}
+
+/* Minimal Hairline Slider */
+.fold-min-slider-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.fold-min-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fold-min-fs-btn button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+}
